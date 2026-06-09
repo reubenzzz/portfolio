@@ -64,7 +64,14 @@ const App = () => {
   const scrollTo = (id) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const navbarHeight = 95; // height of fixed navbar + padding offset
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -87,7 +94,7 @@ const App = () => {
       description: 'A modern, responsive Next.js website for Bethany High School. Designed to showcase the school\'s heritage, academic excellence, announcements, facilities, and dynamic galleries.',
       image: bethanyImg,
       tags: ['Next.js', 'Tailwind CSS', 'React', 'Dynamic UI'],
-      github: 'https://github.com/reubenzzz',
+      github: 'https://github.com/reubenzzz/bethanyhs',
       demo: 'https://www.bethanyhs.in',
       details: {
         role: 'Lead Web Developer',
@@ -128,7 +135,7 @@ const App = () => {
       description: 'A sustainable agri-tech poultry farming presentation website. Modern dashboard showcasing advanced biosecurity, automated feeding, environmental monitoring systems, and revenue models.',
       image: farmsImg,
       tags: ['HTML5', 'CSS3', 'JavaScript', 'Agri-Tech'],
-      github: 'https://github.com/reubenzzz',
+      github: 'https://github.com/reubenzzz/arackamannil-farms',
       demo: 'https://arackamannil-farms.vercel.app',
       details: {
         role: 'UI/UX Architect & Developer',
@@ -243,23 +250,21 @@ const App = () => {
           <div className="projects-grid">
             {projects.map((project, index) => (
               <div key={index} className="project-card glass">
-                <a href={project.demo} target="_blank" rel="noreferrer" className="project-image-link">
-                  <div className="project-image">
-                    <img src={project.image} alt={project.title} />
-                    <div className="project-overlay">
-                      <div className="project-links" onClick={(e) => e.stopPropagation()}>
-                        <a href={project.github} target="_blank" rel="noreferrer" title="View Code"><FaGithub /></a>
-                        <button onClick={() => setSelectedProject(project)} title="View Details" className="project-links-btn"><FaInfoCircle /></button>
-                        <a href={project.demo} target="_blank" rel="noreferrer" title="Live Website"><FaExternalLinkAlt /></a>
-                      </div>
+                <div className="project-image" onClick={() => setSelectedProject(project)} style={{ cursor: 'pointer' }}>
+                  <img src={project.image} alt={project.title} />
+                  <div className="project-overlay">
+                    <div className="project-links" onClick={(e) => e.stopPropagation()}>
+                      <a href={project.github} target="_blank" rel="noreferrer" title="View Code"><FaGithub /></a>
+                      <button onClick={() => setSelectedProject(project)} title="View Details" className="project-links-btn"><FaInfoCircle /></button>
+                      <a href={project.demo} target="_blank" rel="noreferrer" title="Live Website"><FaExternalLinkAlt /></a>
                     </div>
                   </div>
-                </a>
+                </div>
                 <div className="project-info">
                   <h3>
-                    <a href={project.demo} target="_blank" rel="noreferrer" className="project-title-link">
-                      {project.title} <FaExternalLinkAlt className="inline-link-icon" />
-                    </a>
+                    <button onClick={() => setSelectedProject(project)} className="project-title-btn">
+                      {project.title}
+                    </button>
                   </h3>
                   <p>{project.description}</p>
                   <div className="project-tags">

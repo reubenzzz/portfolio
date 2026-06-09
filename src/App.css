@@ -230,7 +230,7 @@
 .project-links a {
   font-size: 1.5rem;
   color: white;
-  background: var(--bg-dark);
+  background: #030712;
   width: 3.5rem;
   height: 3.5rem;
   display: flex;
@@ -656,34 +656,27 @@
 }
 
 /* Project Links */
-.project-title-link {
+.project-title-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--text-main);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
   transition: color 0.3s ease;
 }
 
-.project-title-link:hover {
+.project-title-btn:hover {
   color: var(--primary);
-}
-
-.inline-link-icon {
-  font-size: 0.85rem;
-  opacity: 0.6;
-}
-
-.project-image-link {
-  display: block;
-  width: 100%;
-  height: 100%;
 }
 
 .project-links-btn {
   font-size: 1.5rem;
   color: white;
-  background: var(--bg-dark);
+  background: #030712;
   border: none;
   width: 3.5rem;
   height: 3.5rem;
@@ -979,6 +972,14 @@ body.light-theme .project-modal-close:hover,
 body.light-theme .cert-modal-close:hover {
   background: var(--primary);
   color: white;
+}
+
+body.light-theme .btn-read-more {
+  color: var(--primary);
+}
+
+body.light-theme .btn-read-more:hover {
+  color: var(--secondary);
 }
 
 
