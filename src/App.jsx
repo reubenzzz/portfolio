@@ -320,7 +320,7 @@ const App = () => {
               <h3>Let's work together</h3>
               <p>Check out my detailed work history, projects, and education in my resume.</p>
             </div>
-            <a href="./resume.pdf" download="Reuben_Sam_Philip_Resume.pdf" className="btn btn-primary">
+            <a href="./Reuben_Sam_Philip_Resume.pdf" download="Reuben_Sam_Philip_Resume.pdf" className="btn btn-primary">
               <FaDownload /> Download Resume
             </a>
           </div>
