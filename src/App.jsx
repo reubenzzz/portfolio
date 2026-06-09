@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { 
   FaGithub, FaLinkedin, FaEnvelope, FaCode, FaServer, FaPalette, FaDownload, 
   FaReact, FaNodeJs, FaJs, FaHtml5, FaCss3Alt, FaPython, FaGitAlt,
-  FaEye, FaTimes
+  FaEye, FaTimes, FaExternalLinkAlt
 } from 'react-icons/fa';
 import { SiTailwindcss, SiVite, SiExpress, SiMongodb } from 'react-icons/si';
 import profileImg from './assets/profile.jpg';
-import project1 from './assets/project1.png';
-import project2 from './assets/project2.png';
-import project3 from './assets/project3.png';
+import bethanyImg from './assets/bethany_hs_screenshot.png';
+import printersImg from './assets/arackamannil_printers_screenshot.png';
+import farmsImg from './assets/arackamannil_farms_screenshot.png';
 import nasaCert from './assets/nasa_space_apps_2025.jpg';
 import uiuxCert from './assets/microsoft_uiux_design.jpg';
 import pythonCert from './assets/nptel_python.png';
@@ -62,28 +62,28 @@ const App = () => {
 
   const projects = [
     {
-      title: 'AI Smart Assistant',
-      description: 'A cutting-edge AI companion built with React and OpenAI API, featuring real-time natural language processing and a futuristic UI.',
-      image: project1,
-      tags: ['React', 'OpenAI', 'Framer Motion'],
+      title: 'Bethany High School',
+      description: 'A modern, responsive Next.js website for Bethany High School. Designed to showcase the school\'s heritage, academic excellence, announcements, facilities, and dynamic galleries.',
+      image: bethanyImg,
+      tags: ['Next.js', 'Tailwind CSS', 'React', 'Dynamic UI'],
       github: 'https://github.com/reubenzzz',
-      demo: '#',
+      demo: 'https://www.bethanyhs.in',
     },
     {
-      title: 'E-commerce Elite',
-      description: 'A premium online shopping platform with a focus on minimalist design and seamless user experience, including a custom cart system.',
-      image: project2,
-      tags: ['Node.js', 'React', 'MongoDB'],
-      github: 'https://github.com/reubenzzz',
-      demo: '#',
+      title: 'Arackamannil Printers',
+      description: 'A premium, custom-tailored printing service platform since 1971. Features services for custom apparel, t-shirt printing, flex banners, offset prints, and local business digital dominance.',
+      image: printersImg,
+      tags: ['React', 'Vite', 'CSS3', 'Local SEO'],
+      github: 'https://github.com/reubenzzz/arackamannil-print-vibe',
+      demo: 'https://www.arackamannilprinters.in',
     },
     {
-      title: 'Analytics Dashboard',
-      description: 'High-performance data visualization dashboard for monitoring complex metrics with real-time updates and interactive charts.',
-      image: project3,
-      tags: ['React', 'Chart.js', 'Express'],
+      title: 'Arackamannil Farm',
+      description: 'A sustainable agri-tech poultry farming presentation website. Modern dashboard showcasing advanced biosecurity, automated feeding, environmental monitoring systems, and revenue models.',
+      image: farmsImg,
+      tags: ['HTML5', 'CSS3', 'JavaScript', 'Agri-Tech'],
       github: 'https://github.com/reubenzzz',
-      demo: '#',
+      demo: 'https://arackamannil-farms.vercel.app',
     },
   ];
 
@@ -180,17 +180,23 @@ const App = () => {
           <div className="projects-grid">
             {projects.map((project, index) => (
               <div key={index} className="project-card glass">
-                <div className="project-image">
-                  <img src={project.image} alt={project.title} />
-                  <div className="project-overlay">
-                    <div className="project-links">
-                      <a href={project.github} target="_blank" rel="noreferrer"><FaGithub /></a>
-                      <a href={project.demo} target="_blank" rel="noreferrer"><FaCode /></a>
+                <a href={project.demo} target="_blank" rel="noreferrer" className="project-image-link">
+                  <div className="project-image">
+                    <img src={project.image} alt={project.title} />
+                    <div className="project-overlay">
+                      <div className="project-links" onClick={(e) => e.stopPropagation()}>
+                        <a href={project.github} target="_blank" rel="noreferrer" title="View Code"><FaGithub /></a>
+                        <a href={project.demo} target="_blank" rel="noreferrer" title="Live Website"><FaExternalLinkAlt /></a>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </a>
                 <div className="project-info">
-                  <h3>{project.title}</h3>
+                  <h3>
+                    <a href={project.demo} target="_blank" rel="noreferrer" className="project-title-link">
+                      {project.title} <FaExternalLinkAlt className="inline-link-icon" />
+                    </a>
+                  </h3>
                   <p>{project.description}</p>
                   <div className="project-tags">
                     {project.tags.map(tag => <span key={tag} className="tag">{tag}</span>)}
