@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { 
   FaGithub, FaLinkedin, FaEnvelope, FaCode, FaServer, FaPalette, FaDownload, 
-  FaReact, FaNodeJs, FaJs, FaHtml5, FaCss3Alt, FaPython, FaGitAlt 
+  FaReact, FaNodeJs, FaJs, FaHtml5, FaCss3Alt, FaPython, FaGitAlt,
+  FaEye, FaTimes
 } from 'react-icons/fa';
 import { SiTailwindcss, SiVite, SiExpress, SiMongodb } from 'react-icons/si';
 import profileImg from './assets/profile.jpg';
 import project1 from './assets/project1.png';
 import project2 from './assets/project2.png';
 import project3 from './assets/project3.png';
+import nasaCert from './assets/nasa_space_apps_2025.jpg';
+import uiuxCert from './assets/microsoft_uiux_design.jpg';
+import pythonCert from './assets/nptel_python.png';
 import './App.css';
 
 const App = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [scrolled, setScrolled] = useState(false);
+  const [selectedCert, setSelectedCert] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
       
-      const sections = ['home', 'skills', 'projects', 'resume', 'contact'];
+      const sections = ['home', 'skills', 'projects', 'certificates', 'resume', 'contact'];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -82,6 +87,30 @@ const App = () => {
     },
   ];
 
+  const certificates = [
+    {
+      title: 'Galactic Problem Solver',
+      issuer: 'NASA International Space Apps Challenge',
+      date: 'October 2025',
+      image: nasaCert,
+      tags: ['NASA', 'Hackathon', 'Problem Solving'],
+    },
+    {
+      title: 'Fundamentals of UI/UX Design',
+      issuer: 'Microsoft (Coursera)',
+      date: 'February 2026',
+      image: uiuxCert,
+      tags: ['Microsoft', 'UI/UX', 'Design'],
+    },
+    {
+      title: 'The Joy of Computing using Python',
+      issuer: 'IIT Madras (NPTEL)',
+      date: 'Jan-Apr 2026',
+      image: pythonCert,
+      tags: ['IIT Madras', 'Python', 'Programming', 'Elite'],
+    }
+  ];
+
   return (
     <div className="app">
       {/* Navigation */}
@@ -91,13 +120,13 @@ const App = () => {
             RSP<span>.</span>
           </div>
           <div className="nav-links">
-            {['home', 'skills', 'projects', 'resume', 'contact'].map((section) => (
+            {['home', 'skills', 'projects', 'certificates', 'resume', 'contact'].map((section) => (
               <button 
                 key={section}
                 onClick={() => scrollTo(section)}
                 className={activeSection === section ? 'active' : ''}
               >
-                {section.charAt(0).toUpperCase() + section.slice(1)}
+                {section === 'certificates' ? 'Certifications' : section.charAt(0).toUpperCase() + section.slice(1)}
               </button>
             ))}
           </div>
@@ -173,6 +202,37 @@ const App = () => {
         </div>
       </section>
 
+      {/* Certificates Section */}
+      <section id="certificates" className="certificates-section">
+        <div className="container">
+          <h2 className="section-title">Certifications</h2>
+          <div className="certificates-grid">
+            {certificates.map((cert, index) => (
+              <div key={index} className="certificate-card glass" onClick={() => setSelectedCert(cert)}>
+                <div className="certificate-image">
+                  <img src={cert.image} alt={cert.title} />
+                  <div className="certificate-overlay">
+                    <div className="view-btn">
+                      <FaEye /> View Certificate
+                    </div>
+                  </div>
+                </div>
+                <div className="certificate-info">
+                  <span className="cert-issuer">{cert.issuer}</span>
+                  <h3>{cert.title}</h3>
+                  <div className="cert-meta">
+                    <span className="cert-date">{cert.date}</span>
+                  </div>
+                  <div className="project-tags">
+                    {cert.tags.map(tag => <span key={tag} className="tag">{tag}</span>)}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Resume Section */}
       <section id="resume" className="resume-section">
         <div className="container">
@@ -231,6 +291,22 @@ const App = () => {
           </div>
         </div>
       </footer>
+
+      {/* Lightbox / Modal for Certificate */}
+      {selectedCert && (
+        <div className="cert-modal-overlay" onClick={() => setSelectedCert(null)}>
+          <div className="cert-modal-content glass" onClick={(e) => e.stopPropagation()}>
+            <button className="cert-modal-close" onClick={() => setSelectedCert(null)}>
+              <FaTimes />
+            </button>
+            <img src={selectedCert.image} alt={selectedCert.title} />
+            <div className="cert-modal-info">
+              <h3>{selectedCert.title}</h3>
+              <p>{selectedCert.issuer} • {selectedCert.date}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
