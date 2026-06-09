@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   FaGithub, FaLinkedin, FaEnvelope, FaCode, FaServer, FaPalette, FaDownload, 
   FaReact, FaNodeJs, FaJs, FaHtml5, FaCss3Alt, FaPython, FaGitAlt,
-  FaEye, FaTimes, FaExternalLinkAlt
+  FaEye, FaTimes, FaExternalLinkAlt, FaInfoCircle, FaSun, FaMoon
 } from 'react-icons/fa';
 import { SiTailwindcss, SiVite, SiExpress, SiMongodb } from 'react-icons/si';
 import profileImg from './assets/profile.jpg';
@@ -18,8 +18,18 @@ const App = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [scrolled, setScrolled] = useState(false);
   const [selectedCert, setSelectedCert] = useState(null);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+    if (savedTheme === 'light') {
+      document.body.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+    }
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
       
@@ -38,7 +48,18 @@ const App = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    localStorage.setItem('theme', nextTheme);
+    if (nextTheme === 'light') {
+      document.body.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+    }
+  };
 
   const scrollTo = (id) => {
     const element = document.getElementById(id);
@@ -68,6 +89,19 @@ const App = () => {
       tags: ['Next.js', 'Tailwind CSS', 'React', 'Dynamic UI'],
       github: 'https://github.com/reubenzzz',
       demo: 'https://www.bethanyhs.in',
+      details: {
+        role: 'Lead Web Developer',
+        duration: '2026',
+        overview: 'Bethany High School is a historic educational institution (established in 1918) in Ranni-Perunad, Kerala, managed by Bethany Ashramam. This web application provides a modern, fast, and secure portal for parents, students, and alumni to explore school heritage, announcements, facilities, and dynamic teacher profiles.',
+        features: [
+          'Dynamic announcements and event calendar systems.',
+          'Interactive galleries for both events and teaching staff.',
+          'Optimized routing and code-splitting with Next.js App Router.',
+          'High performance loading boundaries using React Suspense skeleton screens.',
+          'Embedded local SEO schema (JSON-LD) for enhanced search engine visibility.'
+        ],
+        challenges: 'Integrating high-resolution media galleries while maintaining Google PageSpeed optimization. Resolved by utilizing Next.js Image component for automatic format WebP conversion and responsive source-sets.'
+      }
     },
     {
       title: 'Arackamannil Printers',
@@ -76,6 +110,18 @@ const App = () => {
       tags: ['React', 'Vite', 'CSS3', 'Local SEO'],
       github: 'https://github.com/reubenzzz/arackamannil-print-vibe',
       demo: 'https://www.arackamannilprinters.in',
+      details: {
+        role: 'Full Stack Developer',
+        duration: '2026',
+        overview: 'Arackamannil Printers has been delivering high-quality print impressions in Ranny, Kerala since 1971. This modern single-page application serves as a service catalog showcasing custom t-shirt printing, cup sublimation, flex banners, offset prints, and custom corporate packages.',
+        features: [
+          'Interactive responsive layout with modern slide carousels.',
+          'JSON-LD LocalBusiness Schema markup enabling direct Google Maps local search optimization.',
+          'Secured customer inquiry contact forms with frontend validation rules.',
+          'Smooth micro-animations and custom HSL glassmorphism accents matching the physical shop front branding.'
+        ],
+        challenges: 'Creating a modern single-page experience that does not feel cluttered with services. Resolved using modular section layouts and clean tab structures for corporate vs custom printing.'
+      }
     },
     {
       title: 'Arackamannil Farm',
@@ -84,6 +130,18 @@ const App = () => {
       tags: ['HTML5', 'CSS3', 'JavaScript', 'Agri-Tech'],
       github: 'https://github.com/reubenzzz',
       demo: 'https://arackamannil-farms.vercel.app',
+      details: {
+        role: 'UI/UX Architect & Developer',
+        duration: '2026',
+        overview: 'Arackamannil Farm is a modern, sustainable poultry farming enterprise focused on natural rearing and high hygiene. This website functions as an interactive agri-tech presentation detailing farm biosecurity, automated production systems, and market feasibility.',
+        features: [
+          'Detailed competitor analysis matrices contrasting local and national brands.',
+          'Interactive Challenges & Solutions accordion panel addressing feed costs, health, and waste management.',
+          'Comprehensive revenue stream analysis and roadmap projection.',
+          'Floating glass container architecture for clean readability.'
+        ],
+        challenges: 'Translating complex agricultural data and farming flowcharts into an engaging, clean, and easily digestible web experience. Resolved by using modular card UI patterns and descriptive icons.'
+      }
     },
   ];
 
@@ -119,16 +177,21 @@ const App = () => {
           <div className="logo" onClick={() => scrollTo('home')}>
             RSP<span>.</span>
           </div>
-          <div className="nav-links">
-            {['home', 'skills', 'projects', 'certificates', 'resume', 'contact'].map((section) => (
-              <button 
-                key={section}
-                onClick={() => scrollTo(section)}
-                className={activeSection === section ? 'active' : ''}
-              >
-                {section === 'certificates' ? 'Certifications' : section.charAt(0).toUpperCase() + section.slice(1)}
-              </button>
-            ))}
+          <div className="nav-links-wrapper">
+            <div className="nav-links">
+              {['home', 'skills', 'projects', 'certificates', 'resume', 'contact'].map((section) => (
+                <button 
+                  key={section}
+                  onClick={() => scrollTo(section)}
+                  className={activeSection === section ? 'active' : ''}
+                >
+                  {section === 'certificates' ? 'Certifications' : section.charAt(0).toUpperCase() + section.slice(1)}
+                </button>
+              ))}
+            </div>
+            <button className="theme-toggle-btn" onClick={toggleTheme} title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
+              {theme === 'dark' ? <FaSun /> : <FaMoon />}
+            </button>
           </div>
         </div>
       </nav>
@@ -186,6 +249,7 @@ const App = () => {
                     <div className="project-overlay">
                       <div className="project-links" onClick={(e) => e.stopPropagation()}>
                         <a href={project.github} target="_blank" rel="noreferrer" title="View Code"><FaGithub /></a>
+                        <button onClick={() => setSelectedProject(project)} title="View Details" className="project-links-btn"><FaInfoCircle /></button>
                         <a href={project.demo} target="_blank" rel="noreferrer" title="Live Website"><FaExternalLinkAlt /></a>
                       </div>
                     </div>
@@ -201,6 +265,9 @@ const App = () => {
                   <div className="project-tags">
                     {project.tags.map(tag => <span key={tag} className="tag">{tag}</span>)}
                   </div>
+                  <button onClick={() => setSelectedProject(project)} className="btn-read-more">
+                    View Details & Features →
+                  </button>
                 </div>
               </div>
             ))}
@@ -248,7 +315,7 @@ const App = () => {
               <h3>Let's work together</h3>
               <p>Check out my detailed work history, projects, and education in my resume.</p>
             </div>
-            <a href="#" className="btn btn-primary">
+            <a href="./resume.pdf" download="Reuben_Sam_Philip_Resume.pdf" className="btn btn-primary">
               <FaDownload /> Download Resume
             </a>
           </div>
@@ -309,6 +376,60 @@ const App = () => {
             <div className="cert-modal-info">
               <h3>{selectedCert.title}</h3>
               <p>{selectedCert.issuer} • {selectedCert.date}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Lightbox / Modal for Project Details */}
+      {selectedProject && (
+        <div className="project-modal-overlay" onClick={() => setSelectedProject(null)}>
+          <div className="project-modal-content glass" onClick={(e) => e.stopPropagation()}>
+            <button className="project-modal-close" onClick={() => setSelectedProject(null)}>
+              <FaTimes />
+            </button>
+            <div className="project-modal-grid">
+              <div className="project-modal-image">
+                <img src={selectedProject.image} alt={selectedProject.title} />
+                <div className="project-modal-actions">
+                  <a href={selectedProject.demo} target="_blank" rel="noreferrer" className="btn btn-primary">
+                    <FaExternalLinkAlt /> Visit Live Website
+                  </a>
+                  <a href={selectedProject.github} target="_blank" rel="noreferrer" className="btn btn-outline">
+                    <FaGithub /> View Code
+                  </a>
+                </div>
+              </div>
+              <div className="project-modal-info-scroll">
+                <span className="project-modal-role">{selectedProject.details.role} • {selectedProject.details.duration}</span>
+                <h2>{selectedProject.title}</h2>
+                
+                <div className="project-modal-section">
+                  <h4>Overview</h4>
+                  <p>{selectedProject.details.overview}</p>
+                </div>
+
+                <div className="project-modal-section">
+                  <h4>Key Features</h4>
+                  <ul>
+                    {selectedProject.details.features.map((feature, i) => (
+                      <li key={i}>{feature}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="project-modal-section">
+                  <h4>Challenges & Solutions</h4>
+                  <p>{selectedProject.details.challenges}</p>
+                </div>
+
+                <div className="project-modal-section">
+                  <h4>Tech Stack</h4>
+                  <div className="project-tags">
+                    {selectedProject.tags.map(tag => <span key={tag} className="tag">{tag}</span>)}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
